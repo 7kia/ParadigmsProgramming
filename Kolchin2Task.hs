@@ -7,9 +7,9 @@ oddEven (x:y:xs) = y:x:oddEven  xs
 insert :: ([Int],Int,Int) -> [Int]
 insert (list, atom, position) = (take position list) ++ [atom] ++ (drop (position) list)
 {- 3 task -}
-listSumm :: [Int]->[Int]->[Int]
-listSumm first second = [x | x<-(head first) + (head second),
- length first > 0,
- length second > 0, 
-first = drop 1 first,
- second = drop 1 second]
+listSumm :: Num a => [a] -> [a] -> [a]
+listSumm (x:xs) [] = (x:xs)
+listSumm [](x:xs) = (x:xs)
+listSumm [][] = []
+listSumm (x:xs) (y:ys) = (x + y) : listSumm xs ys
+{- 4 task -}
