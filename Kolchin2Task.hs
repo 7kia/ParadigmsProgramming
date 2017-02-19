@@ -19,3 +19,12 @@ then 0
 else (position xs atom) + 1
 
 position [] atom = 0
+{- 5 task -}
+func1 :: Int->Int
+func1 amount = sum [1..amount]
+{- 6 task -}
+func2 :: Int->Int
+func2 amount = sum [amount - x| x<-[1..amount] ]
+{- second variant 6 -}
+func22 :: Int->Int
+func22 amount = func1 amount - amount
