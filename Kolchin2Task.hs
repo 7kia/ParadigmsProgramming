@@ -13,3 +13,9 @@ listSumm [](x:xs) = (x:xs)
 listSumm [][] = []
 listSumm (x:xs) (y:ys) = (x + y) : listSumm xs ys
 {- 4 task -}
+position :: [Int]->Int->Int
+position (x:xs) atom = if x == atom 
+then 0 
+else (position xs atom) + 1
+
+position [] atom = 0
