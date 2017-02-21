@@ -14,12 +14,12 @@ listSumm [](x:xs) = (x:xs)
 listSumm [][] = []
 listSumm (x:xs) (y:ys) = (x + y) : listSumm xs ys
 {- 4 task -}
-position :: Eq a => [a]->a->Int
-position (x:xs) atom = if x == atom 
-then 0 
-else (position xs atom) + 1
+position :: Eq a => [a]-> a -> Int
 
-position [] atom = 0
+position list element = funcPos 0
+                        where funcPos pos | (pos >= (length list)) = -1
+                                       | ((list !! pos) == element) = pos
+                                       | otherwise = funcPos (pos + 1)
 {- 5 task -}
 func1 :: Int->Int
 func1 amount = sum [1..amount]
