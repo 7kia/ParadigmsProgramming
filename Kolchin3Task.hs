@@ -1,4 +1,4 @@
-module Lab2(listnums, listnums2, secondlastlist ) where
+module Lab2(listnums, listnums2, secondlastlist) where
 {- 1 task -}
 listnums :: Int->[Int]
 listnums 0 = []
@@ -17,8 +17,20 @@ isInList1 a (x:xs) = if a == x then True
 else isInList1 a xs
 isInList1 a [] = False
 
+isInList2 :: [Int]->[Int]->[Bool]
+isInList2 [] _ = []
+isInList2 (a:as) (x:xs) = isInList1 a (x:xs) : isInList2 as (x:xs)
+
+extractElement :: (Bool, Int)->[Int]
+extractElement (contain, number) = if contain == True 
+then [number]
+else []
+
+extractElements :: [(Bool, Int)]->[Int]
+extractElements [] = []
+extractElements (x:xs) = extractElement x ++ extractElements xs
+
 myunion :: [Int]->[Int]->[Bool]
-myunion (x:xs) (y:ys) = isInList1 x (y:ys) : []
+myunion [] _ = []
+myunion (x:xs) (y:ys) = isInList2 (x:xs) (y:ys)
 -- TODO ^^^
---[1,2,3][4,5,1]
---[1,2,3][1][4,5,1]
