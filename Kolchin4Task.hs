@@ -19,28 +19,33 @@ isNotCorrespond ((first, second), symbol) = if first /= second then True else Fa
 getNotCorresponds :: [((Bool, Bool), Char)]->[((Bool, Bool), Char)]
 getNotCorresponds list = filter isNotCorrespond list 
 {- 1 task 
-isSpace
+isSpace + test done
 -}
 myIsSpace :: Char -> Bool
 myIsSpace s = if s `elem` ['\t', '\n', '\r', ' ', '\v', '\f'] then True else False
 {- 2 task 
-isOctDigit
+isOctDigit + test done
 -}
 myIsOctDigit :: Char -> Bool
 myIsOctDigit s = if s `elem` ['0'..'7'] then True else False
 {- 3 task
-isPrint
+isPrint + test done
 -}
 myIsPrint :: Char -> Bool
-myIsPrint s = True
+myIsPrint s = if s `elem` ['\160'..'\172'] ++ ['\174'..'\256'] ++ [' '..'~'] then True else False
 {- 4 task
-isSeparator
+isSeparator  + test done
 -}
 myIsSeparator :: Char -> Bool
-myIsSeparator s = if s `elem` ['\n', '\r', ' '] then True else False
+myIsSeparator s = if s `elem` ['\160', ' '] then True else False
 {- 5 task
-digitToInt 
+digitToInt + test done
+
+map digitToInt (['0'..'9'] ++ ['a'..'f'] ++ ['A'..'F'])
+map myDigitToInt (['0'..'9'] ++ ['a'..'f'] ++ ['A'..'F'])
+
 -}
 myDigitToInt :: Char -> Int
-myDigitToInt s = if s `elem` ['0'..'9'] ++ ['a'..'f'] then (ord s) - (ord '0')
+myDigitToInt s = if s `elem` ['0'..'9'] then (ord s) - (ord '0')
+else if toLower(s) `elem` ['a'..'f'] then (ord (toLower(s))) - (ord 'a') + 10
 else -1
