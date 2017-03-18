@@ -20,6 +20,6 @@ main = do
          hClose h2
 
 replace :: Char->String->Char
-replace replaceSym symbol = if replaceSym `elem` [',' , ';'] 
+replace replaceSym symbol = if replaceSym `elem` [',' , ';' , '.', '!', '?', '-'] 
 then head symbol 
 else replaceSym 
