@@ -49,7 +49,7 @@ place(X,[Head|Tail],L) :-
 	).
 
 double([], Result) :- append([], [], Result), !.
-double([Head], Result) :- Result is [Head, Head], !.
+double([Head], Result) :- append([], [Head], L1), append(L1, [Head], Result).
 double([Head|Tail], Result) :- 
     double([Head], HeadList),
     double(Tail, TailList),
