@@ -87,7 +87,7 @@ splitImpl(L, EvenList, OddList) :-
 split(L, EvenList, OddList) :-
     reverse(L, ReverseList), splitImpl(ReverseList, EvenList, OddList).
 
-repeat3(Source, Result) :-
+repeat_back3(Source, Result) :-
     trim(Source, Trimmed),
     first(Source, Head),
     last(Source, Last),
