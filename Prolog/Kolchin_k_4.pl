@@ -33,6 +33,17 @@ notHaveProfession(rezchikov, rezchik).
 
 notHaveProfession(tokarev, tokar).
 
+nameHavePlace(slesarev).
+nameNotHavePlace(kyznitsov).
+nameNotHavePlace(tokarev).
+nameNotHavePlace(rezchikov).
+
+
+professionHavePlace(tokar).
+professionNotHavePlace(rezchik).
+professionNotHavePlace(slesar).
+professionNotHavePlace(kyznits).
+
 exactlyNotHaveProfession(kyznitsov, kyznits).
 exactlyNotHaveProfession(slesarev, slesar).
 exactlyNotHaveProfession(rezchikov, rezchik).
@@ -62,6 +73,9 @@ searchProfession(Name, Profession):-
 		assert(haveProfession(Name, Prof_1)),
 		Profession = Prof_1,
 		assert(
+			professionHavePlace(Prof_1)
+		),
+		assert(
 			notHaveProfession(
 				Name, 
 				arg(
@@ -81,44 +95,129 @@ searchProfession(Name, Profession):-
 				)
 			)
 		),
+		assert(
+			oppositeNames(Name, Name_1)
+		),
+		assert(
+			oppositeNames(Name_1, Name)
+		),
+		assert(
+			nameHavePlace(Name_1)
+		),
+		recract(
+			nameNotHavePlace(Name_1)
+		),
+		assert(
+			professionHavePlace(Profession)
+		),
+		retract(
+			professionNotHavePlace(Profession)
+		)
 	)
 ).
 
-searchName(Profession):-
+searchName(Profession, Name):-
 (
 	(
+		haveProfession(Name, Profession)
 	);
 	(
+		opposite(Name_1, Prof_1), Prof_1 \= Profession,
+		not(oppositeNames(Name_1, _)),
+		assert(
+			haveProfession(Name_1, Profession)
+		),
+		assert(
+			left(
+				arg(1, right(Name_2, Profession), _)
+				Profession
+			)
+		),
+		assert(
+			right(
+				arg(1, left(Name_3, Profession), _)
+				Profession
+			)
+		),
+		assert(
+			nameHavePlace(Name_1)
+		),
+		retract(
+			nameNotHavePlace(Profession).
+		)
+		assert(
+			professionHavePlace(Profession)
+		),
+		retract(
+			professionNotHavePlace(Profession)
+		),
+		assert(
+			professionHavePlace(Prof_1)
+		),
+		retract(
+			professionNotHavePlace(Prof_1)
+		),
+		Name = Name_1
 	)
 ).
 
-main(Argv) :-
-        searchProfession(slesarev),
-		searchProfession(rezchikov)
+getLeftK(R) :-
+        searchProfession(slesarev, Prof_1_),
+		searchName(tokar, Name_1_),
+
+		LastNotPlaceName = nameNotHavePlace(surname(_)),
+		asserr(
+			nameHavePlace(
+				LastNotPlaceName
+			)
+		),
+		assert(
+			opposite(LastNotPlaceName, tokar)
+		),
+		assert(
+			haveProfession(LastNotPlaceName, arg(2, opposite(Name_1_, Prof_2), _))
+		),
+
+		LastNotPlaceProfession = professionNotHavePlace(profession(_)),
+		assert(
+			opposite(slesarev, LastNotPlaceProfession)
+		),
+		slesarevOpposite = arg(
+			1,
+			opposite(_, Prof_1_),
+			_
+		),
+		assert(
+			haveProfession(
+				slesarevOpposite, 
+				LastNotPlaceProfession
+			)
+		),
+		assert(
+			professionHavePlace(LastNotPlaceProfession)
+		),
+		rectract(
+			professionNotHavePlace(LastNotPlaceProfession)
+		),
+		// свяжи лево и право для кузнеца
+
+
+
+		R = 
+		arg(
+			1,
+			haveProfession(
+				_,
+				arg(
+					2,
+					left(slesarev, _),
+					Prof_3
+				)
+			),
+			R
+		)
+		
+
 		.
-
-
-haveProfession(Name, Profession):-
-	notHaveProfession(Name_1, Profession),
-	notHaveProfession(Name_2, Profession),
-	notHaveProfession(Name_3, Profession),
-	not(notHaveProfession(Name, Profession)),
-	surname(Name_1), surname(Name_2), surname(Name_3), 
-    Name \= Name_1, Name \= Name_2, Name \= Name_3,
-    Name_1 \= Name_2, Name_1 \= Name_3,
-    Name_2 \= Name_3.
-
-leftOrRight(Name, Profession):-
-	opposite(Name_1, Prof_1),
-	opposite(Name_2, Prof_2),	
-	opposite(Name_3, Profession).
-
-findProfessions(A):-haveProfession(Name,Profession),
-	assert(notHaveProfession(Name, Prof_1)), 
-	assert(notHaveProfession(Name, Prof_2)), 
-	assert(notHaveProfession(Name, Prof_3)),
-    Profession \= Prof_1, Profession \= Prof_2, Profession \= Prof_3,
-    Prof_1 \= Prof_2, Prof_1 \= Prof_3,
-    Prof_2 \= Prof_3.
 
 	
